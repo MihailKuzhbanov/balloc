@@ -1,0 +1,6 @@
+bins
+doc
+build
+build.out
+.vscode
+.clang-format
