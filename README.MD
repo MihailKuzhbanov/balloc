@@ -15,5 +15,7 @@
 
 
 Сборка проекта: mkdir build ; cd build ; cmake .. ; make
+
 Проход тестов: make test
+
 Генерация документации: make docs
