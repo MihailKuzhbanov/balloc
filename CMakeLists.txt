@@ -17,11 +17,11 @@ add_library(ba_cpp SHARED
 set_target_properties(ba_cpp PROPERTIES VERSION 1.0.1 SOVERSION 1)
 
 add_executable(ba_testc
-    ${CMAKE_SOURCE_DIR}/src/test.c
+    ${CMAKE_SOURCE_DIR}/tests/test.c
 )
 
 add_executable(ba_testcpp
-    ${CMAKE_SOURCE_DIR}/src/test.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test.cpp
 )
 
 include_directories(PUBLIC ${CMAKE_SOURCE_DIR}/include)
