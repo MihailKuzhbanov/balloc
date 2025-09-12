@@ -37,7 +37,7 @@ add_test(
 
 add_test(
   NAME ba_testcpp
-  COMMAND $<TARGET_FILE:ba_testc>
+  COMMAND $<TARGET_FILE:ba_testcpp>
 )
 
 option(DOCS_REQUIRED "Build documentation using Doxygen" ON)

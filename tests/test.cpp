@@ -8,7 +8,7 @@ public:
   char data[64]{'a'};
 };
 
-void run_tests( std::vector< int > sizes, std::vector< int > counts ) {
+int run_tests( std::vector< int > sizes, std::vector< int > counts ) {
   for ( auto siz : sizes ) {
     for ( auto cnt : counts ) {
       try {
@@ -19,7 +19,7 @@ void run_tests( std::vector< int > sizes, std::vector< int > counts ) {
     }
   }
 
-  int            size_def  = counts.at( 0 );
+  int            size_def  = sizes.at( 0 );
   int            count_def = counts.at( 0 );
   blockAllocator alloc( size_def, count_def );
   try {
@@ -44,9 +44,6 @@ void run_tests( std::vector< int > sizes, std::vector< int > counts ) {
   obj->data[1] = 'a';
   char new_val = obj->data[1];
 
-  std::cout << "LargeObject pointer, without calling class constructor" << std::endl;
-  std::cout << "LargeObject::data[1]: " << old_val << std::endl;
-
   std::thread * t1 = new std::thread( [&] {
     for ( int i = 0; i < 10000; i++ ) {
       auto p = alloc.allocate();
@@ -59,10 +56,17 @@ void run_tests( std::vector< int > sizes, std::vector< int > counts ) {
     alloc.deallocate( p );
   };
   t1->join();
+
+  return 0;
 };
 
 int main( int argc, char ** argv ) {
-  run_tests( std::vector< int >{ 64, 1, 0 }, std::vector< int >{ 8, 1, 0 } );
+  int res{1};
+  try {
+    res = run_tests( std::vector< int >{ 64, 1, 0 }, std::vector< int >{ 8, 1, 0 } );
+  } catch (std::exception &e) {
+    std::cerr << e.what() << std::endl;
+  }
 
-  return 0;
+  return res;
 }

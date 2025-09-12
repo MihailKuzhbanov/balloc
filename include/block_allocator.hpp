@@ -93,6 +93,9 @@ public:
    * @return A pointer to the newly allocated block, cast to the T type, not calls class constructor
    */
   template < typename T > T * alloc() {
+    if (sizeof (T) > block_size) {
+      throw std::runtime_error("sizeof class more than block_size. Cannot allocate block");
+    }
     void * p   = allocate();
     T *    ptr = static_cast< T *>( p );
     return ptr;
