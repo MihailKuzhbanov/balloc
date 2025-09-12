@@ -4,8 +4,8 @@
 #include <chrono>
 
 class LargeObject {
-private:
-  char data[64];
+public:
+  char data[64]{'a'};
 };
 
 void run_tests( std::vector< int > sizes, std::vector< int > counts ) {
@@ -32,9 +32,20 @@ void run_tests( std::vector< int > sizes, std::vector< int > counts ) {
 
   alloc.reset();
 
+  // get raw pointer for placement new and call class constructor
   LargeObject * obj = new ( alloc.allocate() ) LargeObject();
   obj->~LargeObject();
   alloc.dealloc( obj );
+  obj = nullptr;
+
+  // get class pointer without constructor calling
+  obj = alloc.alloc<LargeObject>();
+  char old_val = obj->data[1];
+  obj->data[1] = 'a';
+  char new_val = obj->data[1];
+
+  std::cout << "LargeObject pointer, without calling class constructor" << std::endl;
+  std::cout << "LargeObject::data[1]: " << old_val << std::endl;
 
   std::thread * t1 = new std::thread( [&] {
     for ( int i = 0; i < 10000; i++ ) {

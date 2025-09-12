@@ -90,11 +90,11 @@ public:
    * @brief Template function to allocate object on block of memory.
    *
    * @tparam T The type of object to be allocated.
-   * @return A pointer to the newly allocated block, cast to the T type.
+   * @return A pointer to the newly allocated block, cast to the T type, not calls class constructor
    */
   template < typename T > T * alloc() {
     void * p   = allocate();
-    T *    ptr = static_cast< T >( p );
+    T *    ptr = static_cast< T *>( p );
     return ptr;
   };
 
