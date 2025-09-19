@@ -93,12 +93,12 @@ public:
    * @tparam T The type of object to be allocated.
    * @return A pointer to the newly allocated block, cast to the T type, not calls class constructor
    */
-  template < typename T > T * create() {
+  template < typename T, typename... TA > T * create(TA... args) {
     if (sizeof (T) > block_size) {
       throw std::runtime_error("sizeof class more than block_size. Cannot allocate block");
     }
     void * p   = allocate();
-    T * ptr = new(p) T();
+    T * ptr = new(p) T(args...);
 
     return ptr;
   };
