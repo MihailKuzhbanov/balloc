@@ -75,29 +75,31 @@ public:
   void reset();
 
   /**
-   * @brief Template function to deallocate object, created on allocated memory block, set to nullptr after
+   * @brief Template function to destroy object and deallocate memory block, set to nullptr after.
    *
    * @tparam T The type of the object being deallocated.
    * @param ptr A reference to the pointer of the object to be deallocated.
    */
-  template < typename T > void dealloc( T & ptr ) {
+  template < typename T > void destroy( T & ptr ) {
     void * p = static_cast< void * >( ptr );
+    ptr.~T();
     deallocate( p );
     ptr = nullptr;
   };
 
   /**
-   * @brief Template function to allocate object on block of memory.
+   * @brief Template function to allocate and construct object on block of memory.
    *
    * @tparam T The type of object to be allocated.
    * @return A pointer to the newly allocated block, cast to the T type, not calls class constructor
    */
-  template < typename T > T * alloc() {
+  template < typename T > T * create() {
     if (sizeof (T) > block_size) {
       throw std::runtime_error("sizeof class more than block_size. Cannot allocate block");
     }
     void * p   = allocate();
-    T *    ptr = static_cast< T *>( p );
+    T * ptr = new(p) T();
+
     return ptr;
   };
 

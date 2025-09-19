@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(balloc VERSION 1.0.1 DESCRIPTION "block allocator")
+project(balloc VERSION 1.0.2 DESCRIPTION "block allocator")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -14,7 +14,7 @@ set_target_properties(ba_c PROPERTIES VERSION 1.0.1 SOVERSION 1)
 add_library(ba_cpp SHARED
     ${CMAKE_SOURCE_DIR}/src/block_allocator.cpp
 )
-set_target_properties(ba_cpp PROPERTIES VERSION 1.0.1 SOVERSION 1)
+set_target_properties(ba_cpp PROPERTIES VERSION 1.0.2 SOVERSION 1)
 
 add_executable(ba_testc
     ${CMAKE_SOURCE_DIR}/tests/test.c

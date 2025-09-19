@@ -33,16 +33,18 @@ int run_tests( std::vector< int > sizes, std::vector< int > counts ) {
   alloc.reset();
 
   // get raw pointer for placement new and call class constructor
-  LargeObject * obj = new ( alloc.allocate() ) LargeObject();
+  void * p = alloc.allocate();
+  LargeObject * obj = new ( p ) LargeObject();
   obj->~LargeObject();
-  alloc.dealloc( obj );
+  alloc.deallocate( p );
   obj = nullptr;
 
-  // get class pointer without constructor calling
-  obj = alloc.alloc<LargeObject>();
+  // get class pointer with constructor calling
+  obj = alloc.create<LargeObject>();
   char old_val = obj->data[1];
   obj->data[1] = 'a';
   char new_val = obj->data[1];
+  alloc.destroy(obj);
 
   std::thread * t1 = new std::thread( [&] {
     for ( int i = 0; i < 10000; i++ ) {
